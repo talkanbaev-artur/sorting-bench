@@ -1,6 +1,7 @@
 package algorithms_test
 
 import (
+	"math/rand"
 	"testing"
 
 	"github.com/talkanbaev-artur/sorting-bench/algorithms"
@@ -21,4 +22,32 @@ func TestQuickSort(t *testing.T) {
 func TestMergeSort(t *testing.T) {
 	sorted := algorithms.Mergesort(testArray)
 	assert.Equal(t, testCorrectArray, sorted)
+}
+
+func createArray(n int) []int {
+	var res []int
+	for i := 0; i < n; i++ {
+		res = append(res, rand.Intn(2000000))
+	}
+	return res
+}
+
+func BenchmarkQuickSort100(b *testing.B) {
+	arr := createArray(100000)
+
+	for i := 0; i < b.N; i++ {
+		b.Run("Name-100", func(b *testing.B) {
+			algorithms.QuickSort(arr)
+		})
+	}
+}
+
+func BenchmarkMergeSort100(b *testing.B) {
+	arr := createArray(100000)
+
+	for i := 0; i < b.N; i++ {
+		b.Run("Name-100", func(b *testing.B) {
+			algorithms.Mergesort(arr)
+		})
+	}
 }
