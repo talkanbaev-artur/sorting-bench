@@ -1,28 +1,29 @@
 package algorithms
 
-func quickSortCore(arr []int, low, high int) []int {
-	if low < high {
-		var p int
-		arr, p = partition(arr, low, high)
-		arr = quickSortCore(arr, low, p-1)
-		arr = quickSortCore(arr, p+1, high)
-	}
-	return arr
-}
+import "math/rand"
 
-func partition(arr []int, low, high int) ([]int, int) {
-	pivot := arr[high]
-	i := low
-	for j := low; j < high; j++ {
-		if arr[j] < pivot {
-			arr[i], arr[j] = arr[j], arr[i]
-			i++
+func QuickSort(a []int) []int {
+	if len(a) < 2 {
+		return a
+	}
+
+	left, right := 0, len(a)-1
+
+	pivotIndex := rand.Int() % len(a)
+
+	a[pivotIndex], a[right] = a[right], a[pivotIndex]
+
+	for i := range a {
+		if a[i] < a[right] {
+			a[i], a[left] = a[left], a[i]
+			left++
 		}
 	}
-	arr[i], arr[high] = arr[high], arr[i]
-	return arr, i
-}
 
-func QuickSort(arr []int) []int {
-	return quickSortCore(arr, 0, len(arr)-1)
+	a[left], a[right] = a[right], a[left]
+
+	QuickSort(a[:left])
+	QuickSort(a[left+1:])
+
+	return a
 }
