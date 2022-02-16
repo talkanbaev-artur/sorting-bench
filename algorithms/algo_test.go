@@ -32,22 +32,38 @@ func createArray(n int) []int {
 	return res
 }
 
-func BenchmarkQuickSort100(b *testing.B) {
-	arr := createArray(100000)
+var arr1m = createArray(1000000)
 
+func BenchmarkQuickSort1M(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		b.Run("Name-100", func(b *testing.B) {
-			algorithms.QuickSort(arr)
+		b.Run("Quick", func(b *testing.B) {
+			algorithms.QuickSort(arr1m)
 		})
 	}
 }
 
-func BenchmarkMergeSort100(b *testing.B) {
-	arr := createArray(100000)
-
+func BenchmarkMergeSort1M(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		b.Run("Name-100", func(b *testing.B) {
-			algorithms.Mergesort(arr)
+		b.Run("Merge", func(b *testing.B) {
+			algorithms.Mergesort(arr1m)
+		})
+	}
+}
+
+var arr1b = createArray(100000000)
+
+func BenchmarkQuickSort100M(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		b.Run("Quick", func(b *testing.B) {
+			algorithms.QuickSort(arr1b)
+		})
+	}
+}
+
+func BenchmarkMergeSort100M(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		b.Run("Merge", func(b *testing.B) {
+			algorithms.Mergesort(arr1b)
 		})
 	}
 }
