@@ -1,32 +1,37 @@
 package algorithms
 
 func Mergesort(items []int) []int {
-	if len(items) < 2 {
-		return items
+	if len(items) > 1 {
+		m := len(items) / 2
+		L := items[:m]
+		R := items[m:]
+		items = merge(Mergesort(R), Mergesort(L))
 	}
-	first := Mergesort(items[:len(items)/2])
-	second := Mergesort(items[len(items)/2:])
-	return merge(first, second)
+	return items
 }
 
-func merge(a, b []int) []int {
-	final := []int{}
-	i := 0
-	j := 0
-	for i < len(a) && j < len(b) {
-		if a[i] < b[j] {
-			final = append(final, a[i])
+func merge(L, R []int) []int {
+	A := make([]int, len(L)+len(R))
+	i, j, k := 0, 0, 0
+	for i < len(L) && j < len(R) {
+		if L[i] < R[j] {
+			A[k] = L[i]
 			i++
 		} else {
-			final = append(final, b[j])
+			A[k] = R[j]
 			j++
 		}
+		k++
 	}
-	for ; i < len(a); i++ {
-		final = append(final, a[i])
+	for i < len(L) {
+		A[k] = L[i]
+		i++
+		k++
 	}
-	for ; j < len(b); j++ {
-		final = append(final, b[j])
+	for j < len(R) {
+		A[k] = R[j]
+		j++
+		k++
 	}
-	return final
+	return A
 }
